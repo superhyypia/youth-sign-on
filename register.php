@@ -535,6 +535,10 @@ button,
                     <option value="Other" <?php echo $selected_club === 'Other' ? 'selected' : ''; ?>>Other</option>
                 </select>
 
+                <label for="ci_licence_number">Cycling Ireland Licence Number (optional)</label>
+                <input type="text" id="ci_licence_number" name="ci_licence_number"
+                    maxlength="50" autocomplete="off" placeholder="Leave blank if not applicable">
+
                 <label>Emergency Contact Name <span class="required">*</span></label>
                 <input 
                     type="text" 

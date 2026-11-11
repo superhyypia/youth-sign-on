@@ -93,6 +93,7 @@ $riders_stmt = $conn->prepare("
         mobile,
         email,
         licence_number,
+        ci_licence_number,
         emergency_contact_name,
         emergency_contact_phone,
         medical_notes,
@@ -485,6 +486,13 @@ $age_group = $age_group_labels[$spin['pace_level']] ?? $spin['pace_level'];
                         </div>
                     <?php endif; ?>
 
+                    <?php if (!empty($rider['ci_licence_number'])): ?>
+                        <div class="row">
+                            <strong>CI Licence:</strong>
+                            <?php echo htmlspecialchars($rider['ci_licence_number']); ?>
+                        </div>
+                    <?php endif; ?>
+
                     <div class="row">
                         <strong>Emergency Contact:</strong>
                         <?php echo htmlspecialchars($rider['emergency_contact_name']); ?>
@@ -554,6 +562,7 @@ $age_group = $age_group_labels[$spin['pace_level']] ?? $spin['pace_level'];
                     <th class="col-present">Present</th>
                     <th class="col-rider">Rider</th>
                     <th class="col-club">Club</th>
+                    <th>CI Licence</th>
                     <th class="col-mobile">Mobile</th>
                     <th class="col-ice">Emergency Contact</th>
                     <th class="col-ice-phone">Emergency Phone</th>
@@ -567,6 +576,7 @@ $age_group = $age_group_labels[$spin['pace_level']] ?? $spin['pace_level'];
                         <td class="col-present"><span class="present-box"></span></td>
                         <td><?php echo htmlspecialchars($rider['first_name'] . ' ' . $rider['last_name']); ?></td>
                         <td><?php echo !empty($rider['licence_number']) ? htmlspecialchars($rider['licence_number']) : '—'; ?></td>
+                        <td><?php echo !empty($rider['ci_licence_number']) ? htmlspecialchars($rider['ci_licence_number']) : '—'; ?></td>
                         <td><?php echo htmlspecialchars($rider['mobile']); ?></td>
                         <td><?php echo htmlspecialchars($rider['emergency_contact_name']); ?></td>
                         <td><?php echo htmlspecialchars($rider['emergency_contact_phone']); ?></td>

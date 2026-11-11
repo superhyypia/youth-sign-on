@@ -51,7 +51,8 @@ $first_name = trim($_POST['first_name'] ?? '');
 $last_name = trim($_POST['last_name'] ?? '');
 $mobile = trim($_POST['mobile'] ?? '');
 $email = trim($_POST['email'] ?? '');
-$licence_number = trim($_POST['licence_number'] ?? '');
+$licence_number = trim($_POST['licence_number'] ?? ''); // Existing column stores Club.
+$ci_licence_number = trim($_POST['ci_licence_number'] ?? '');
 $emergency_contact_name = trim($_POST['emergency_contact_name'] ?? '');
 $emergency_contact_phone = trim($_POST['emergency_contact_phone'] ?? '');
 $medical_notes = trim($_POST['medical_notes'] ?? '');
@@ -82,6 +83,10 @@ if (
     $emergency_contact_phone === ''
 ) {
     die("Please complete all required fields.");
+}
+
+if (mb_strlen($ci_licence_number, 'UTF-8') > 50) {
+    die('Cycling Ireland licence number must be 50 characters or fewer.');
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -206,6 +211,7 @@ $insert_stmt = $conn->prepare("
         mobile,
         email,
         licence_number,
+        ci_licence_number,
         emergency_contact_name,
         emergency_contact_phone,
         medical_notes,
@@ -214,7 +220,7 @@ $insert_stmt = $conn->prepare("
         registered_at
     )
     VALUES
-    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
 ");
 
 if (!$insert_stmt) {
@@ -222,13 +228,14 @@ if (!$insert_stmt) {
 }
 
 $insert_stmt->bind_param(
-    "issssssssii",
+    "isssssssssii",
     $spin_id,
     $first_name,
     $last_name,
     $mobile,
     $email,
     $licence_number,
+    $ci_licence_number,
     $emergency_contact_name,
     $emergency_contact_phone,
     $medical_notes,
